@@ -1,5 +1,5 @@
-from gameFunctions import *
-from gameAssets import *
+from src.gameFunctions import *
+from src.gameAssets import *
 
 
 def main():
@@ -43,6 +43,3 @@ def main():
         startGameFlag = getStartResponse()
 
 main()
-
-
-

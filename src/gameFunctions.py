@@ -1,4 +1,4 @@
-from gameAssets import *
+from src.gameAssets import *
 from random import choice
 
 def getStartResponse():
@@ -76,8 +76,9 @@ def getComputerChoice(possibleChoices):
 
 def checkForWinner(currentState, possibleChoices):
     
-    if len(possibleChoices) == 2:
+    if len(possibleChoices) == 7:
         continueFlag = True
+        winner = None
     else:
         if (currentState[1] == currentState[2] == currentState[3]) and (currentState[1] != '-'):
             continueFlag = False
@@ -103,6 +104,9 @@ def checkForWinner(currentState, possibleChoices):
         elif (currentState[3] == currentState[5] == currentState[7]) and (currentState[5] != '-'):
             continueFlag = False
             winner = currentState[5]
+        elif len(possibleChoices) == 0:
+            continueFlag = False
+            winner = "Tie"
         else:
             continueFlag = True
             winner = None

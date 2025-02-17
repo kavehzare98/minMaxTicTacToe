@@ -1,3 +1,3 @@
 import pytest
 
-import gameFunctions as gf
+import src.gameFunctions as gf
