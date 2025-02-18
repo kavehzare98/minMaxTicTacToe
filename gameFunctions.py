@@ -1,4 +1,4 @@
-from src.gameAssets import *
+from gameAssets import *
 from random import choice
 
 def getStartResponse():
@@ -117,7 +117,7 @@ def checkForWinner(currentState, possibleChoices):
 def announceWinner(winner):
     if winner == userSymbol:
         print("The winner is:\tUSER")
-    elif winner == userSymbol:
+    elif winner == computerSymbol:
         print("The winner is:\tCOMPUTER")
     else:
         print("It's a TIE!")

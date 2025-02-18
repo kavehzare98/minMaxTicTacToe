@@ -1,5 +1,5 @@
-from src.gameFunctions import *
-from src.gameAssets import *
+from gameFunctions import *
+from gameAssets import *
 
 
 def main():
