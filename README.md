@@ -4,9 +4,11 @@ A simple implementation of Tic Tac Toe:
 ## How to Run:
 ```bash
 # After cloning the repo
+
 cd src
 python3 main.py
-# Play the game
+
+# Now play the game
 ```
 
 
