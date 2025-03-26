@@ -12,34 +12,36 @@ def main():
     while oGame.getStartFlag():
 
         oGame = game.Game()
-        oUserPlayer = player.Player(cf.HUMAN_TYPE, cf.USER_SYMBOL)
-        oComputerPlayer = player.Player()
+        oPlayer1 = player.Player(cf.HUMAN_TYPE, cf.USER_SYMBOL)
+        oPlayer2 = player.Player()
+        player1Symbol =  oPlayer1.getPlayerSymbol()
+        player2Symbol = oPlayer2.getPlayerSymbol()
 
-        while oGame.checkForWinner(oUserPlayer, oComputerPlayer) != 'tie':
+        while oGame.getGameOver() == False:
         
             # display grids (menu and current)
-            gridChoice = oGame.getGrid("menu")
-            oGame.displayGrid(gridChoice)
-            
-            gridChoice = oGame.getGrid("current")
-            oGame.displayGrid(gridChoice)
+            oGame.displayGrid(oGame.getMenuGrid())
+            oGame.displayGrid(oGame.getCurrentGrid())
 
-            input1 = oUserPlayer.makeMove(oGame)
+            input1 = oPlayer1.makeMove(oGame)
 
             if (oGame.checkMoveIsValid(input1) == True):
                 oGame.updatePossibleMoves(input1)
-                player_symbol = oUserPlayer.getPlayerSymbol()
                 row, col = oGame.convertMoveToGridCoordinate(input1)
                 coordinates = (row, col)
-                oGame.updateCurrentGrid(coordinates, player_symbol)
+                oGame.updateCurrentGrid(coordinates, player1Symbol)
+                oGame.checkForWinner(player1Symbol, player2Symbol)
 
-                if oGame.checkForWinner(oUserPlayer, oComputerPlayer) != 'tie':
-                    input2 = oComputerPlayer.makeMove(oGame)
+                if oGame.getGameOver() == False:
+                    input2 = oPlayer2.makeMove(oGame)
                     oGame.updatePossibleMoves(input2)
-                    player_symbol = oComputerPlayer.getPlayerSymbol()
                     row, col = oGame.convertMoveToGridCoordinate(input2)
                     coordinates = (row, col)
-                    oGame.updateCurrentGrid(coordinates, player_symbol)
+                    oGame.updateCurrentGrid(coordinates, player2Symbol)
+                    oGame.checkForWinner(player1Symbol, player2Symbol)
+        
+        oGame.displayGrid(oGame.getCurrentGrid())
+        print(f"The Winner of the Game is: {oGame.getWinner()}")
 
         # Prompt user whether to restart game
         oGame.askToStartGame()

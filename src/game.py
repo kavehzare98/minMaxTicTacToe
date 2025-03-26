@@ -19,6 +19,8 @@ class Game():
         self.menuGrid = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
         self.possibleMoves = [str(num) for num in range(1, 10)]
         self.mode = gameMode
+        self.gameOver = False
+        self.winner = None
 
     def displayHeader(self):
         print("""=======================
@@ -130,22 +132,6 @@ BYE BYE!
         removeIndex = self.possibleMoves.index(moveStr)
         self.possibleMoves.pop(removeIndex)
 
-    def getGrid(self, gridSpecifier):
-        """
-        Returns a grid based on the specifier.
-
-        Parameters:
-        gridSpecifier (str): a string that specifies the type of grid to return.
-            "menu" returns the menu grid, while "current" returns the current grid.
-
-        Returns:
-        list: a 2D list of strings representing the grid.
-        """
-        if gridSpecifier == "menu":
-            return self.menuGrid
-        elif gridSpecifier == "current":
-            return self.currentGrid
-
     def displayGrid(self, grid):
         print()
         col = 0
@@ -155,9 +141,97 @@ BYE BYE!
                 print("---+---+---")
         print()
 
-    def checkForWinner(self, player1, player2):
-        if len(self.possibleMoves) == 0:
-            return "tie"
+    def getColumns(self):
+        matrix = self.getCurrentGrid()
+        numRows = len(matrix)
+        numCols = numRows
+        column = []
+        columns = []
+        for j in range(numCols):
+            for i in range(numRows):
+                column.append(matrix[i][j])
+            columns.append(column)
+            column = []
+        return columns
+    
+    def getDiagonals(self):
+        matrix = self.getCurrentGrid()
+        numRows = len(matrix)
+        diagonal1 = []
+        diagonal2 = []
+
+        range1 = list(range(numRows))
+        range2 = list(range(numRows - 1, -1, -1))
+        range2.reverse()
+
+        for i in range(numRows):
+            diagonal1.append(matrix[range1[i]][range1[i]])
+            diagonal2.append(matrix[range1[i]][range2[i]])
+
+        diagonals = [diagonal1, diagonal2]
+        return diagonals
+
+    
+    def checkForWinner(self, player1_symbol, player2_symbol):
+
+        matrix = self.getCurrentGrid()
+
+        numRows = len(matrix)
+        numCols = numRows
+        winningNumber = 3
+        # Extract columns
+        columns = self.getColumns()
+        # Extract diagonals
+        diagonals = self.getDiagonals()
         
+        # Check rows
+        matrix = self.getCurrentGrid()
+        for row in matrix:
+
+            if row.count(player1_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player1_symbol
+                return
+            elif row.count(player2_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player2_symbol
+                return
+        
+        for col in columns:
+            if col.count(player1_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player1_symbol
+                return
+            elif col.count(player2_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player2_symbol
+                return
+            
+        for diag in diagonals:
+            if diag.count(player1_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player1_symbol
+                return
+            elif diag.count(player2_symbol) == winningNumber:
+                self.gameOver = True
+                self.winner = player2_symbol
+                return
+            
+        if len(self.getPossibleMoves()) == 0:
+            self.gameOver = True
+            self.winner = "TIE"
+
+    def getCurrentGrid(self):
+        return self.currentGrid
+    
+    def getMenuGrid(self):
+        return self.menuGrid
+
     def getPossibleMoves(self):
         return self.possibleMoves
+    
+    def getGameOver(self):
+        return self.gameOver
+
+    def getWinner(self):
+        return self.winner
