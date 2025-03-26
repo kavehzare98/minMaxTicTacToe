@@ -1,5 +1,5 @@
 import config as cf
-from player import Player
+import player
 
 class Game():
     def __init__(self, startFlag=False, gameMode=cf.SINGLE_PLAYER_MODE):
@@ -119,12 +119,6 @@ BYE BYE!
         columnIndex = moveIndex % 3
 
         return rowIndex, columnIndex
-
-    def extractPlayerSymbol(self, oPlayer):
-        if isinstance(oPlayer, Player):
-            return oPlayer.getPlayerSymbol()
-        else:
-            return None
     
     def updateCurrentGrid(self, moveCoordinates, symbol):
         if symbol:
@@ -161,6 +155,9 @@ BYE BYE!
                 print("---+---+---")
         print()
 
-    def checkForWinner(self):
+    def checkForWinner(self, player1, player2):
         if len(self.possibleMoves) == 0:
             return "tie"
+        
+    def getPossibleMoves(self):
+        return self.possibleMoves
