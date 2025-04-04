@@ -157,18 +157,22 @@ BYE BYE!
     def getDiagonals(self):
         matrix = self.getCurrentGrid()
         numRows = len(matrix)
+
         diagonal1 = []
         diagonal2 = []
 
         range1 = list(range(numRows))
         range2 = list(range(numRows - 1, -1, -1))
-        range2.reverse()
 
         for i in range(numRows):
-            diagonal1.append(matrix[range1[i]][range1[i]])
-            diagonal2.append(matrix[range1[i]][range2[i]])
+            item1 = matrix[range1[i]][range1[i]]
+            item2 = matrix[range1[i]][range2[i]]
+
+            diagonal1.append(item1)
+            diagonal2.append(item2)
 
         diagonals = [diagonal1, diagonal2]
+
         return diagonals
 
     
