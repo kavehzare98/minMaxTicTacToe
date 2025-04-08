@@ -10,34 +10,34 @@ def main():
 
         continuePlaying = True
 
-        currentGrid = initialGrid.copy()
+        current_grid = initialGrid.copy()
 
         possibleChoices = [int(num) for num in possibleRange]
 
         while continuePlaying:
 
-            displayGrid(menuGrid, "Menu")
+            display_grid(menu_grid, "Menu")
 
-            displayGrid(currentGrid, "Current Grid")
+            display_grid(current_grid, "Current Grid")
 
-            userChoice = getUserChoice()
+            user_choice = getUserChoice()
 
-            if userChoice in possibleChoices:
+            if user_choice in possibleChoices:
 
-                userChoiceIndex = possibleChoices.index(userChoice)
+                userChoiceIndex = possibleChoices.index(user_choice)
                 possibleChoices.pop(userChoiceIndex)
 
-                currentGrid = updateGrid(userChoice, currentGrid, userSymbol)
+                current_grid = updateGrid(user_choice, current_grid, userSymbol)
 
                 if len(possibleChoices) != 0:
 
                     computerChoice, possibleChoices = getComputerChoice(possibleChoices)
 
-                    currentGrid = updateGrid(computerChoice, currentGrid, computerSymbol)
+                    current_grid = updateGrid(computerChoice, current_grid, computerSymbol)
 
-                continuePlaying, winner = checkForWinner(currentGrid, possibleChoices)
+                continuePlaying, winner = check_for_winner(current_grid, possibleChoices)
 
-        displayGrid(currentGrid, "Final Grid")
+        display_grid(current_grid, "Final Grid")
         announceWinner(winner)            
 
         startGameFlag = getStartResponse()

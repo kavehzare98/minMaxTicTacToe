@@ -2,39 +2,27 @@ import config as cf
 from model import player
 
 class Game():
-    def __init__(self, start_flag=False, gameMode=cf.SINGLE_PLAYER_MODE):
+    def __init__(self, start_flag=False, game_mode=cf.SINGLE_PLAYER_MODE):
         """
         Constructor for Game class.
 
         Parameters:
         start_flag (bool): flag to determine if game should start (default=False)
-        gameMode (str): specifies single player or multiplayer mode (default=cf.SINGLE_PLAYER_MODE)
+        game_mode (str): specifies single player or multiplayer mode (default=cf.SINGLE_PLAYER_MODE)
 
         Sets up game attributes, including start flag, default grid, current grid,
         menu grid, possible moves, and game mode.
         """
         self.start_flag = start_flag
-        self.defaultGrid = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
-        self.currentGrid = self.defaultGrid
-        self.menuGrid = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
-        self.possibleMoves = [str(num) for num in range(1, 10)]
-        self.mode = gameMode
-        self.gameOver = False
+        self.default_grid = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
+        self.current_grid = self.default_grid
+        self.menu_grid = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
+        self.possible_moves = [str(num) for num in range(1, 10)]
+        self.mode = game_mode
+        self.game_over = False
         self.winner = None
 
-    def displayHeader(self):
-        print("""=======================
-WELCOME TO TIC TAC TOE!
-=======================
-            """)
-    
-    def displayFooter(self):
-        print("""========
-BYE BYE!
-========
-            """)
-
-    def askToStartGame(self):
+    def prompt_to_start(self):
         """
         Prompts the user to start the game.
 
@@ -52,7 +40,7 @@ BYE BYE!
             self.start_flag = False
 
 
-    def getStartFlag(self):
+    def get_start_flag(self):
         return self.start_flag
     
     def setGameMode(self):
@@ -74,17 +62,17 @@ BYE BYE!
     2. Multiplayer
         """)
 
-        modeChoices = [cf.SINGLE_PLAYER_MODE, cf.MULTIPLAYER_MODE]
+        mode_choices = [cf.SINGLE_PLAYER_MODE, cf.MULTIPLAYER_MODE]
 
-        userChoice = input("Enter your choice:\t")
+        user_choice = input("Enter your choice:\t")
 
-        while userChoice not in modeChoices:
-            userChoice = input("Invalid choice! Enter your choice (1 or 2):\t")
+        while user_choice not in mode_choices:
+            user_choice = input("Invalid choice! Enter your choice (1 or 2):\t")
 
 
-        self.mode = userChoice
+        self.mode = user_choice
 
-    def checkMoveIsValid(self, moveStr):
+    def is_valid_move(self, moveStr):
 
         """
         Checks if a move is valid or not.
@@ -97,42 +85,42 @@ BYE BYE!
 
         A move is valid if it is in the list of possible moves.
         """
-        validFlag = True
+        valid = True
 
-        if moveStr not in self.possibleMoves:
-            validFlag = False
+        if moveStr not in self.possible_moves:
+            valid = False
 
-        return validFlag
+        return valid
     
-    def convertMoveToGridCoordinate(self, moveStr):
-        moveNumber = int(moveStr)
-        moveIndex = moveNumber - 1
+    def convert_move_to_coordinate(self, moveStr):
+        move_number = int(moveStr)
+        move_index = move_number - 1
 
-        if moveIndex < 3:
+        if move_index < 3:
             # Row 1
-            rowIndex = 0
-        elif moveIndex < 6:
+            row_index = 0
+        elif move_index < 6:
             # Row 2
-            rowIndex = 1
+            row_index = 1
         else:
             # Row 3
-            rowIndex = 2
+            row_index = 2
         
-        columnIndex = moveIndex % 3
+        col_index = move_index % 3
 
-        return rowIndex, columnIndex
+        return row_index, col_index
     
-    def updateCurrentGrid(self, moveCoordinates, symbol):
+    def update_current_grid(self, move_coordinate, symbol):
         if symbol:
-            row = moveCoordinates[0]
-            column = moveCoordinates[1]
-            self.currentGrid[row][column] = symbol
+            row = move_coordinate[0]
+            column = move_coordinate[1]
+            self.current_grid[row][column] = symbol
 
-    def updatePossibleMoves(self, moveStr):
-        removeIndex = self.possibleMoves.index(moveStr)
-        self.possibleMoves.pop(removeIndex)
+    def update_possible_moves(self, moveStr):
+        removeIndex = self.possible_moves.index(moveStr)
+        self.possible_moves.pop(removeIndex)
 
-    def displayGrid(self, grid):
+    def display_grid(self, grid):
         print()
         col = 0
         for row in range(3):
@@ -141,101 +129,99 @@ BYE BYE!
                 print("---+---+---")
         print()
 
-    def getColumns(self):
-        matrix = self.getCurrentGrid()
-        numRows = len(matrix)
-        numCols = numRows
-        column = []
+    def get_columns(self):
+        matrix = self.get_current_grid()
+        num_rows = len(matrix)
+        num_cols = num_rows
+        
         columns = []
-        for j in range(numCols):
-            for i in range(numRows):
+        for j in range(num_cols):
+            column = []
+            for i in range(num_rows):
                 column.append(matrix[i][j])
             columns.append(column)
-            column = []
         return columns
     
-    def getDiagonals(self):
-        matrix = self.getCurrentGrid()
-        numRows = len(matrix)
+    def get_diagonals(self):
+        matrix = self.get_current_grid()
+        num_rows = len(matrix)
 
-        diagonal1 = []
-        diagonal2 = []
+        diagonal_1 = []
+        diagonal_2 = []
 
-        range1 = list(range(numRows))
-        range2 = list(range(numRows - 1, -1, -1))
+        range_1 = list(range(num_rows))
+        range_2 = list(range(num_rows - 1, -1, -1))
 
-        for i in range(numRows):
-            item1 = matrix[range1[i]][range1[i]]
-            item2 = matrix[range1[i]][range2[i]]
+        for i in range(num_rows):
+            item_1 = matrix[range_1[i]][range_1[i]]
+            item_2 = matrix[range_1[i]][range_2[i]]
 
-            diagonal1.append(item1)
-            diagonal2.append(item2)
+            diagonal_1.append(item_1)
+            diagonal_2.append(item_2)
 
-        diagonals = [diagonal1, diagonal2]
-
-        return diagonals
+        return [diagonal_1, diagonal_2]
 
     
-    def checkForWinner(self, player1_symbol, player2_symbol):
+    def check_for_winner(self, player_1_symbol, player_2_symbol):
 
-        matrix = self.getCurrentGrid()
+        matrix = self.get_current_grid()
 
-        numRows = len(matrix)
-        numCols = numRows
-        winningNumber = 3
+        num_rows = len(matrix)
+        num_cols = num_rows
+        winning_number = 3
         # Extract columns
-        columns = self.getColumns()
+        columns = self.get_columns()
         # Extract diagonals
-        diagonals = self.getDiagonals()
+        diagonals = self.get_diagonals()
         
         # Check rows
-        matrix = self.getCurrentGrid()
+        matrix = self.get_current_grid()
         for row in matrix:
 
-            if row.count(player1_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player1_symbol
+            if row.count(player_1_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_1_symbol
                 return
-            elif row.count(player2_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player2_symbol
+            elif row.count(player_2_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_2_symbol
                 return
         
         for col in columns:
-            if col.count(player1_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player1_symbol
+            if col.count(player_1_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_1_symbol
                 return
-            elif col.count(player2_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player2_symbol
+            elif col.count(player_2_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_2_symbol
                 return
             
         for diag in diagonals:
-            if diag.count(player1_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player1_symbol
+            if diag.count(player_1_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_1_symbol
                 return
-            elif diag.count(player2_symbol) == winningNumber:
-                self.gameOver = True
-                self.winner = player2_symbol
+            elif diag.count(player_2_symbol) == winning_number:
+                self.game_over = True
+                self.winner = player_2_symbol
                 return
             
-        if len(self.getPossibleMoves()) == 0:
-            self.gameOver = True
+        if len(self.get_possible_moves()) == 0:
+            self.game_over = True
             self.winner = "TIE"
 
-    def getCurrentGrid(self):
-        return self.currentGrid
+    def get_current_grid(self):
+        return self.current_grid
     
-    def getMenuGrid(self):
-        return self.menuGrid
+    def get_menu_grid(self):
+        return self.menu_grid
 
-    def getPossibleMoves(self):
-        return self.possibleMoves
+    def get_possible_moves(self):
+        return self.possible_moves
     
-    def getGameOver(self):
-        return self.gameOver
+    def get_game_over_status(self):
+        return self.game_over
 
-    def getWinner(self):
+    def get_winner(self):
         return self.winner

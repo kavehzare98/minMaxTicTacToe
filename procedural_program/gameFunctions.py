@@ -17,7 +17,7 @@ def getStartResponse():
     return firstLetterOfResponse
 
 
-def displayGrid(grid, gridName):
+def display_grid(grid, gridName):
     """
     This functions displays a grid input which is a dictionary.
     It displays the dictionary with some formatting in a 3x3 orientation
@@ -38,16 +38,16 @@ def displayGrid(grid, gridName):
 
 def getUserChoice():
     print("\n")
-    userChoice = input("Please choose an empty ('-') square:\t")
+    user_choice = input("Please choose an empty ('-') square:\t")
     print("\n")
 
-    while userChoice not in possibleRange:
+    while user_choice not in possibleRange:
         
-        userChoice = input("Invalid Input! Please choose an empty ('-') square between 1 to 9:\t")
+        user_choice = input("Invalid Input! Please choose an empty ('-') square between 1 to 9:\t")
 
-    userChoice = int(userChoice)
+    user_choice = int(user_choice)
 
-    return userChoice
+    return user_choice
 
 
 def updateGrid(choice, currentState, symbol):
@@ -74,7 +74,7 @@ def getComputerChoice(possibleChoices):
     return computerChoice, possibleChoices
 
 
-def checkForWinner(currentState, possibleChoices):
+def check_for_winner(currentState, possibleChoices):
     
     if len(possibleChoices) == 7:
         continueFlag = True

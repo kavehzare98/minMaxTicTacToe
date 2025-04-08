@@ -1,6 +1,6 @@
 import config as cf
 from random import choice
-import game
+from model import game
 
 class Player():
     def __init__(self, type=cf.COMPUTER_TYPE, symbol=cf.COMPUTER_SYMBOL, difficulty=cf.EASY_DIFFICULTY):
@@ -11,7 +11,7 @@ class Player():
 
     def makeMove(self, gameObject):
         if self.type == cf.COMPUTER_TYPE and self.difficulty == cf.EASY_DIFFICULTY and isinstance(gameObject, game.Game):
-            moves = gameObject.getPossibleMoves()
+            moves = gameObject.get_possible_moves()
             computer_move = choice(moves)
             return computer_move
         else:
