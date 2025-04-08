@@ -1,19 +1,19 @@
 import config as cf
-import player
+from model import player
 
 class Game():
-    def __init__(self, startFlag=False, gameMode=cf.SINGLE_PLAYER_MODE):
+    def __init__(self, start_flag=False, gameMode=cf.SINGLE_PLAYER_MODE):
         """
         Constructor for Game class.
 
         Parameters:
-        startFlag (bool): flag to determine if game should start (default=False)
+        start_flag (bool): flag to determine if game should start (default=False)
         gameMode (str): specifies single player or multiplayer mode (default=cf.SINGLE_PLAYER_MODE)
 
         Sets up game attributes, including start flag, default grid, current grid,
         menu grid, possible moves, and game mode.
         """
-        self.startFlag = startFlag
+        self.start_flag = start_flag
         self.defaultGrid = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         self.currentGrid = self.defaultGrid
         self.menuGrid = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
@@ -47,13 +47,13 @@ BYE BYE!
         startGamePrompt = input("Would you like to play? ")
         startGameFlag = startGamePrompt.lower()[0]
         if startGameFlag == 'y':
-            self.startFlag = True
+            self.start_flag = True
         else:
-            self.startFlag = False
+            self.start_flag = False
 
 
     def getStartFlag(self):
-        return self.startFlag
+        return self.start_flag
     
     def setGameMode(self):
 
