@@ -21,27 +21,6 @@ class Game():
         self.mode = game_mode
         self.game_over = False
         self.winner = None
-
-    def prompt_to_start(self):
-        """
-        Prompts the user to start the game.
-
-        Asks the user if they would like to play the game and sets the start 
-        flag to True if the response begins with y. Does not return the flag.
-
-        Returns:
-            bool: True if the game should start, False otherwise.
-        """
-        startGamePrompt = input("Would you like to play? ")
-        startGameFlag = startGamePrompt.lower()[0]
-        if startGameFlag == 'y':
-            self.start_flag = True
-        else:
-            self.start_flag = False
-
-
-    def get_start_flag(self):
-        return self.start_flag
     
     def set_game_mode(self):
 
@@ -120,14 +99,7 @@ class Game():
         removeIndex = self.possible_moves.index(moveStr)
         self.possible_moves.pop(removeIndex)
 
-    def display_grid(self, grid):
-        print()
-        col = 0
-        for row in range(3):
-            print(f" {grid[row][col]} | {grid[row][col + 1]} | {grid[row][col + 2]}")
-            if row != 2:
-                print("---+---+---")
-        print()
+
 
     def get_columns(self):
         matrix = self.get_current_grid()

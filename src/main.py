@@ -5,23 +5,36 @@ from view import cli_view as CLI
 
 def main():
 
+    # initialize an object of Game class
     o_game = game.Game()
+
+    # view: show CLI header
     CLI.display_header()
+
+    # view: prompt user to start game
     o_game.prompt_to_start()
 
+    # controller: game loop start after validation
     while o_game.get_start_flag():
 
+        # Reinitializing game for the new round, but repeating myself here
         o_game = game.Game()
-        o_player_1 = player.Player(cf.HUMAN_TYPE, cf.USER_SYMBOL)
-        o_player_2 = player.Player()
+
+        # creating two instances of Player class, could be asking user for multiplayer and level here
+        o_player_1 = player.Player(cf.HUMAN_TYPE, cf.USER_SYMBOL, difficulty=1)
+        o_player_2 = player.Player(cf.COMPUTER_TYPE, cf.COMPUTER_SYMBOL, difficulty=1)
+
+        # getting player symbol instead of setting it
         player_1_symbol =  o_player_1.get_player_symbol()
         player_2_symbol = o_player_2.get_player_symbol()
 
+        # while game is not over
         while o_game.get_game_over_status() == False:
         
             # display grids (menu and current)
             o_game.display_grid(o_game.get_menu_grid())
             o_game.display_grid(o_game.get_current_grid())
+
 
             input_1 = o_player_1.make_move(o_game)
 
@@ -46,4 +59,6 @@ def main():
 
     CLI.display_footer()
 
-main()
+
+if __name__ == "__main__":
+    main()
