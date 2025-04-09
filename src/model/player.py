@@ -6,12 +6,12 @@ class Player():
     def __init__(self, type=cf.COMPUTER_TYPE, symbol=cf.COMPUTER_SYMBOL, difficulty=cf.EASY_DIFFICULTY):
         self.type = type
         self.symbol = symbol
-        self.winStatus = None
+        self.win_status = None
         self.difficulty = difficulty
 
-    def makeMove(self, gameObject):
-        if self.type == cf.COMPUTER_TYPE and self.difficulty == cf.EASY_DIFFICULTY and isinstance(gameObject, game.Game):
-            moves = gameObject.get_possible_moves()
+    def make_move(self, game_object):
+        if self.type == cf.COMPUTER_TYPE and self.difficulty == cf.EASY_DIFFICULTY and isinstance(game_object, game.Game):
+            moves = game_object.get_possible_moves()
             computer_move = choice(moves)
             return computer_move
         else:
@@ -19,23 +19,23 @@ class Player():
             return user_input
 
     
-    def getPlayerType(self):
+    def get_player_type(self):
         return self.type
     
-    def getPlayerSymbol(self):
+    def get_player_symbol(self):
         return self.symbol
     
-    def getWinStatus(self):
-        return self.winStatus
+    def get_win_status(self):
+        return self.win_status
     
-    def setPlayerType(self, newType):
-        self.type = newType
+    def set_player_type(self, new_type):
+        self.type = new_type
     
-    def setPlayerSymbol(self, newSymbol):
-        self.symbol = newSymbol
+    def set_player_symbol(self, new_symbol):
+        self.symbol = new_symbol
 
-    def setWinStatus(self, newWinStatus):
-        self.winStatus = newWinStatus
+    def set_win_status(self, new_win_status):
+        self.win_status = new_win_status
 
     # make move
 

@@ -43,7 +43,7 @@ class Game():
     def get_start_flag(self):
         return self.start_flag
     
-    def setGameMode(self):
+    def set_game_mode(self):
 
         """
         Prompts the user to select a game mode.
