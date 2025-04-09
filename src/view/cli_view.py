@@ -51,7 +51,7 @@ BYE BYE!
         return input("\nWould you like to continue playing (Y or N)?\t")
     
     def prompt_user_for_game_mode(self) -> str:
-        return input("\nWould you like to play?\n\t1. Singleplayer\n\t2. Multiplayer\nYour Choice:\t")
+        return input("\nWould you like to play?\n\t1. Single Player\n\t2. Multi-Player\nYour Choice:\t")
     
     def prompt_user_for_difficulty(self) -> str:
         return input("\nPick a difficulty level:\n\t1. Easy\n\t2. Medium\n\t3. Hard\nYour Choice:\t")

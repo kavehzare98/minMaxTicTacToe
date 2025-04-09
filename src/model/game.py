@@ -2,7 +2,7 @@ import config as cf
 from model import player
 
 class Game():
-    def __init__(self, start_flag=False, game_mode=cf.SINGLE_PLAYER_MODE):
+    def __init__(self):
         """
         Constructor for Game class.
 
@@ -13,14 +13,12 @@ class Game():
         Sets up game attributes, including start flag, default grid, current grid,
         menu grid, possible moves, and game mode.
         """
-        self.start_flag = start_flag
         self.default_grid = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         self.current_grid = self.default_grid
         self.menu_grid = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
         self.possible_moves = [str(num) for num in range(1, 10)]
-        self.mode = game_mode
-        self.game_over = False
-        self.winner = None
+        self.mode = None
+        self.playing = None
     
     def set_game_mode(self):
 
@@ -195,5 +193,14 @@ class Game():
     def get_game_over_status(self):
         return self.game_over
 
-    def get_winner(self):
+    def get_winner(self) -> str:
         return self.winner
+    
+
+    # Setters
+
+    def set_game_mode(self, mode) -> None:
+        self.mode = mode
+
+
+    
