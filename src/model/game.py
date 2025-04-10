@@ -19,55 +19,7 @@ class Game():
         self.possible_moves = [str(num) for num in range(1, 10)]
         self.mode = None
         self.playing = None
-    
-    def set_game_mode(self):
 
-        """
-        Prompts the user to select a game mode.
-
-        Displays the available game modes (Single Player or Multiplayer) and 
-        prompts the user to enter a choice. Continues to prompt until a valid 
-        choice is made. Sets the game's mode based on the user's selection.
-
-        Updates:
-            self.mode (str): The selected game mode, either SINGLE_PLAYER_MODE 
-            or MULTIPLAYER_MODE.
-        """
-
-        print("""Choose one of the following game modes:
-    1. Single Player
-    2. Multiplayer
-        """)
-
-        mode_choices = [cf.SINGLE_PLAYER_MODE, cf.MULTIPLAYER_MODE]
-
-        user_choice = input("Enter your choice:\t")
-
-        while user_choice not in mode_choices:
-            user_choice = input("Invalid choice! Enter your choice (1 or 2):\t")
-
-
-        self.mode = user_choice
-
-    def is_valid_move(self, moveStr):
-
-        """
-        Checks if a move is valid or not.
-
-        Parameters:
-            moveStr (str): Move to be checked
-
-        Returns:
-            bool: True if the move is valid, False otherwise
-
-        A move is valid if it is in the list of possible moves.
-        """
-        valid = True
-
-        if moveStr not in self.possible_moves:
-            valid = False
-
-        return valid
     
     def convert_move_to_coordinate(self, moveStr):
         move_number = int(moveStr)
@@ -199,8 +151,10 @@ class Game():
 
     # Setters
 
-    def set_game_mode(self, mode) -> None:
+    def set_mode(self, mode) -> None:
         self.mode = mode
 
+    def set_difficulty(self, level) -> None:
+        self.set_difficulty = level
 
     

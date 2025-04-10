@@ -4,10 +4,11 @@ import config as CONF
 
 
 class GameController:
-    def __init__(self, game: Game, player, view: CLI):
+    def __init__(self, game: Game, view: CLI):
         self.game = game
-        self.player = player
         self.view = view
+        self.player1 = None
+        self.player2 = None
         self.running = False
 
     # Parse input
@@ -53,7 +54,8 @@ class GameController:
             self.running = True
 
         while (self.running):
-            game_mode = self.view.prompt_user_for_game_mode()
+            
+            # Ask for single or multiplayer mode (game mode)
             keep_asking = True
             while keep_asking:
                 try: 
@@ -63,8 +65,32 @@ class GameController:
                     print("INPUT ERROR: Please enter a number!")
                     continue
                 
-                valid_game_mode = self.validate_input(game_mode_int, CONF.DIFFICULTY_LEVEL_DICT.keys(), int)
+                valid_game_mode = self.validate_input(game_mode_int, CONF.PLAYER_MODE_DICT.keys(), int)
                 if valid_game_mode:
+                    self.game.set_mode(game_mode_int)
+                    keep_asking = False
+
+            # Prompt for symbol
+        
+            # For single player mode
+            mode = self.game.get_mode()
+            if mode == CONF.PLAYER_MODE_DICT[1]:
+
+                # Prompt user for difficulty level 
+                keep_asking = True
+                while keep_asking:
+                    try:
+                        raw_input = self.view.prompt_user_for_difficulty()
+                        difficulty_level_int = int(raw_input)
+                    except:
+                        print("INPUT ERROR: Please enter a number!")
+                        continue
+
+                    valid_difficulty_level = self.validate_input(difficulty_level_int, CONF.DIFFICULTY_LEVEL_DICT.keys(), int)
+                    if valid_difficulty_level:
+                        self.game.set_difficulty(difficulty_level_int)
+            else:
+
                     
 
 

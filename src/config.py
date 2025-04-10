@@ -1,4 +1,4 @@
-POSSIBLE_GAME_SYMBOLS_LIST = ('X', 'O')
+SYMBOLS = ('X', 'O')
 
 PLAYER_MODE_DICT = {1:'Single Player', 2:'Multiplayer'}
 
