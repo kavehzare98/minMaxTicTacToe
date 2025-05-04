@@ -64,6 +64,7 @@ class Game:
     # GETTERS
     def get_dimension(self) -> int:
         return self.dimension
+    
     def get_default_state(self) -> list:
         return self.default_state
     
