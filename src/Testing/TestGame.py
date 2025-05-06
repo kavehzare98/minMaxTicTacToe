@@ -80,9 +80,30 @@ class TestGame(unittest.TestCase):
     #     index = self.possible_moves.index(move_str)
     #     self.possible_moves.pop(index)
 
-    # ============================================== END
-""" 
+    # update_possible_moves() UNIT TEST
+    def run_update_possible_moves_test(self, move: int, dim: int=3):
+        move_str = str(move)
+        n = int(dim ** 2)
+        game = Game(dim)
+
+        game.update_possible_moves(move)
+        new_possible_moves = game.get_possible_moves()
+        expected_possible_moves = [str(num) for num in range(1, n + 1)]
+        expected_index = expected_possible_moves.index(move_str)
+        expected_possible_moves.pop(expected_index)
+
+        self.assertEqual(new_possible_moves, expected_possible_moves)
     
+    # update_possible_moves() TEST CASES
+    def test_update_possible_moves_cases(self):
+        for dim in range(2, 10):
+            n = int(dim ** 2)
+            for move in range(1, n + 1):
+                self.run_update_possible_moves_test(move, dim)
+
+    # ============================================== END
+
+"""   
     # SPECIAL METHODS
     def validate_move(self, move : int) -> bool:
         if move in self.possible_moves:

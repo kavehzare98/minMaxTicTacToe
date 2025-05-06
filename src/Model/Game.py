@@ -126,7 +126,8 @@ class Game:
     
     # SPECIAL METHODS
     def validate_move(self, move : int) -> bool:
-        if move in self.possible_moves:
+        move_str = str(move)
+        if move_str in self.possible_moves:
             return True
         return False
     
