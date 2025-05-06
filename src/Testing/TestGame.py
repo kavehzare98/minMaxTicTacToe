@@ -124,16 +124,36 @@ class TestGame(unittest.TestCase):
                 flag = True
             
             self.run_validate_move_test(move, flag, dim)
-                
+
+    # is_draw() UNIT TEST
+    def run_is_draw_test(self, test_case: list, dim: int=3):
+        game = Game(dim)
+        game.set_current_state(test_case)
+        actual_is_draw = game.is_draw()
+
+        expected_empty_count = test_case.count('-')
+        if expected_empty_count == 0:
+            expected_is_draw = True
+        else:
+            expected_is_draw = False
+        
+        self.assertEqual(actual_is_draw, expected_is_draw)
+
+    # is_draw() TEST CASES
+    def test_is_draw_cases(self):
+        test_cases = [
+            ['X', 'O', 'X', 'X', 'O', 'X', '-', '-', '-'],
+            ['-', 'X', 'O', '-', 'X', 'O', 'X', '-', '-'],
+            ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X']
+        ]
+
+        for case in test_cases:
+            self.run_is_draw_test(case)
+        
     # ============================================== END
 
 
 """   
-    # SPECIAL METHODS
-    def validate_move(self, move : int) -> bool:
-        if move in self.possible_moves:
-            return True
-        return False
     
     def is_draw(self) -> bool:
         if self.winner == None:
