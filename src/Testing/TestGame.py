@@ -281,12 +281,3 @@ class TestGame(unittest.TestCase):
             self.run_reset_game_test(case, winner)        
 
     # ============================================== END
-
-
-"""
-    # RESET GAME
-    def reset_game(self) -> None:
-        self.current_state = self.default_state.copy()
-        self.possible_moves = self.menu_state.copy()
-        self.winner = None
-    """
