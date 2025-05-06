@@ -102,6 +102,31 @@ class TestGame(unittest.TestCase):
                 self.run_update_possible_moves_test(move, dim)
 
     # ============================================== END
+    
+
+
+    # SPECIAL METHODS
+    # ============================================== BEGIN
+
+    # validate_move() UNIT TEST
+    def run_validate_move_test(self, move: int, expected_flag: bool, dim: int=3):
+        game = Game(dim)
+        actual_flag = game.validate_move(move)
+        self.assertEqual(actual_flag, expected_flag)
+
+    # validate_move() TEST CASES
+    def test_validate_move_cases(self):
+        dim = 4
+        n = dim ** 2
+        for move in range(25):
+            flag = False
+            if move >= 1 and move <= int(dim**2):
+                flag = True
+            
+            self.run_validate_move_test(move, flag, dim)
+                
+    # ============================================== END
+
 
 """   
     # SPECIAL METHODS
