@@ -93,6 +93,9 @@ class Game:
     def set_possible_moves(self, new_moves : list) -> None:
         self.possible_moves = new_moves
 
+    def set_winner(self, winner: str) -> None:
+        self.winner = winner
+
     # HELPER FUNCTIONS
     
     def get_rows(self) -> list:

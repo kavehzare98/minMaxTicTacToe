@@ -210,60 +210,80 @@ class TestGame(unittest.TestCase):
         for case in winner_cases:
             self.run_is_draw_test(case, winner_flag)
 
+    # reset_game() UNIT TEST
+    def run_reset_game_test(self, state: list, winner: str, dim=3):
+        game = Game(dim)
+        game.set_current_state(state)
+        game.set_winner(winner)
+        game.reset_game()
+
+        new_current_state = game.get_current_state()
+        new_possible_moves = game.get_possible_moves()
+        new_winner = game.get_winner()
+
+        expected_current_state = game.get_default_state()
+        expected_possible_moves = [str(num) for num in range(1, 10)]
+        expected_winner = None
+
+        self.assertEqual(new_current_state, expected_current_state)
+        self.assertEqual(new_possible_moves, expected_possible_moves)
+        self.assertEqual(new_winner, expected_winner)
+
+    # reset_game() TEST CASES
+    def test_reset_game_cases(self):
+        # No Winners
+        no_winner_cases = non_winning_cases = [
+            ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'],  # Full board, no winner
+            ['X', 'O', 'X', 'O', 'X', '-', 'O', 'X', 'O'],  # Almost full, no winner
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-'],  # Empty board
+            ['X', 'O', 'X', '-', 'X', 'O', '-', 'O', '-'],  # In progress, no win
+            ['O', 'X', 'O', 'X', 'O', 'X', '-', '-', '-'],  # Draw in progress
+            ['X', 'O', '-', 'X', '-', 'O', '-', 'X', '-'],  # Scattered, no win
+            ['-', 'X', 'O', 'O', '-', 'X', 'X', 'O', '-'],  # Random no win
+            ['O', 'X', 'O', 'O', 'X', '-', 'X', 'O', 'X'],  # Close game, no win
+            ['X', 'O', '-', 'O', 'X', 'X', '-', '-', 'O'],  # In progress, no win
+        ]
+
+        # Winner
+        winner_cases = winning_cases = [
+            # Rows
+            ['X', 'X', 'X', '-', '-', '-', '-', '-', '-'],
+            ['-', '-', '-', 'O', 'O', 'O', '-', '-', '-'],
+            ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
+            
+            # Columns
+            ['O', '-', '-', 'O', '-', '-', 'O', '-', '-'],
+            ['-', 'X', '-', '-', 'X', '-', '-', 'X', '-'],
+            ['-', '-', 'O', '-', '-', 'O', '-', '-', 'O'],
+            
+            # Diagonals
+            ['X', '-', '-', '-', 'X', '-', '-', '-', 'X'],
+            ['-', '-', 'O', '-', 'O', '-', 'O', '-', '-'],
+            
+            # Additional mixed winning cases (alternate symbols, scattered placement)
+            ['X', 'X', 'X', 'O', '-', 'O', '-', '-', '-'],
+            ['O', 'X', 'X', 'O', 'X', '-', 'O', '-', '-'],
+            ['-', 'O', '-', '-', 'O', '-', '-', 'O', 'X'],
+            ['X', '-', '-', '-', 'X', 'O', '-', '-', 'X'],
+            ['O', '-', 'X', 'O', 'X', '-', 'O', '-', '-'],
+            ['-', '-', 'O', '-', 'O', 'X', 'O', '-', '-'],
+            ['-', '-', 'X', '-', 'X', 'O', 'X', '-', 'O'],
+            ['O', '-', 'O', '-', 'O', '-', 'O', '-', 'X'],
+            ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
+        ]
+
+        winner = None
+        for case in no_winner_cases:
+            self.run_reset_game_test(case, winner)
+        
+        winner = "Someone"
+        for case in winner_cases:
+            self.run_reset_game_test(case, winner)        
+
     # ============================================== END
 
 
-"""   
-
-    # DETERMINE WINNER
-    def is_winner(self, p1_symbol, p2_symbol) -> bool:
-        winning_num = self.get_dimension()
-        found_winner = False
-
-        # Call helper functions get lists of rows, columns, and diagonals
-        rows = self.get_rows()
-        cols = self.get_cols()
-        diags = self.get_diags()
-
-        # Check rows for winning condition
-        for row in rows:
-            if found_winner == False:
-                if row.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif row.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
-
-        # If winner found, quit function
-        if found_winner:
-            return found_winner
-        
-        # Check columns for winning condition
-        for col in cols:
-            if found_winner == False:
-                if col.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif col.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
-        
-        if found_winner:
-            return found_winner
-
-        # Check forward and backward diagonals for winning condition
-        for diag in diags:
-            if found_winner == False:
-                if diag.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif diag.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
-
-        return found_winner
-    
+"""
     # RESET GAME
     def reset_game(self) -> None:
         self.current_state = self.default_state.copy()
