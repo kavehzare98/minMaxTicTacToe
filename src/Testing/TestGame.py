@@ -4,12 +4,12 @@ from Model.Game import Game
 class TestGame(unittest.TestCase):
 
     # TEST HELPER Functions
-    # ====================== BEGIN
+    # ============================================== BEGIN
 
     # get_rows() unit test function
     def run_get_rows_test(self, dim=3):
         game = Game(dim)
-        game.set_current_state(game.get_menu_state().copy())
+        game.set_current_state(game.get_menu_state())
         rows = game.get_rows()
         expected_rows = [ [str(dim * r + c + 1) for c in range(dim)] for r in range(dim) ]
         self.assertEqual(rows, expected_rows)
@@ -22,7 +22,7 @@ class TestGame(unittest.TestCase):
     # get_cols() UNIT TEST
     def run_get_cols_test(self, dim=3):
         game = Game(dim)
-        game.set_current_state(game.get_menu_state().copy())
+        game.set_current_state(game.get_menu_state())
         cols = game.get_cols()
         expected_cols = [[str(dim * r + c + 1) for r in range(dim)] for c in range(dim)]
         self.assertEqual(cols, expected_cols)
@@ -32,24 +32,30 @@ class TestGame(unittest.TestCase):
         for i in range(2, 10):
             self.run_get_cols_test(i)
 
-    # def get_diags(self) -> list:
-    #     state = self.current_state
-    #     num_cols = self.get_dimension()
-    #     backward_diag = []
-    #     forward_diag = []
-
-    #     for i in range(1, num_cols + 1):
-    #         backward_diag.append(state[(i - 1) * (num_cols + 1)])
-    #         forward_diag.append(state[i * (num_cols - 1)])
-
-    #     return (backward_diag, forward_diag)
-
     # get_diags() UNIT TEST
-    # def run_get_diags_test(self, dim=3):
-    #     return
-    # get_diags() TEST CASES
-    # ====================== END
+    def run_get_diags_test(self, dim=3):
+        game = Game(dim)
+        game.set_current_state(game.get_menu_state())
+        back_diag, forward_diag = game.get_diags()
 
+        expected_backward_diagonal = [str(i * (dim + 1) + 1) for i in range(dim)]
+        expected_forward_diagonal = [str((i + 1) * (dim - 1) + 1) for i in range(dim)]
+        
+        self.assertEqual(back_diag, expected_backward_diagonal)
+        self.assertEqual(forward_diag, expected_forward_diagonal)
+
+    # get_diags() TEST CASES
+    def test_get_diags_cases(self):
+        for i in range(2, 10):
+            self.run_get_diags_test(i)
+
+    # ============================================== END
+
+
+
+    # UPDATE METHODS
+    # ============================================== BEGIN
+    
     # update_current_state() UNIT TEST
     def run_update_current_state_test(self, move_pos, move_symbol, dim=3):
         n = dim ** 2
@@ -69,22 +75,8 @@ class TestGame(unittest.TestCase):
             with self.subTest(move=move_pos, symbol=move_symbol):
                 self.run_update_current_state_test(move_pos, move_symbol)
 
-    
-
+    # ============================================== END
 """ 
-
-    
-    def get_diags(self) -> list:
-        state = self.current_state
-        num_cols = self.get_dimension()
-        backward_diag = []
-        forward_diag = []
-
-        for i in range(1, num_cols + 1):
-            backward_diag.append(state[(i - 1) * (num_cols + 1)])
-            forward_diag.append(state[i * (num_cols - 1)])
-
-        return (backward_diag, forward_diag)
     
     # SPECIAL METHODS
     def validate_move(self, move : int) -> bool:
