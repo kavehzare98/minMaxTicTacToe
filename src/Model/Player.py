@@ -1,5 +1,5 @@
 
-from model.config import Mode
+from src.Model.Config import Mode
 from typing import Tuple
 import random
 

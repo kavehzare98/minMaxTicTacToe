@@ -96,8 +96,8 @@ class Game:
     # HELPER FUNCTIONS
     
     def get_rows(self) -> list:
-        state = self.get_dimension()
-        num_cols = int(len(state) ** 0.5)
+        state = self.current_state
+        num_cols = self.get_dimension()
         rows = [state[i:i+num_cols] for i in range(0, len(state), num_cols)]
         return rows
     
