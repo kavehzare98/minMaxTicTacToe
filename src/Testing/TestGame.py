@@ -55,7 +55,7 @@ class TestGame(unittest.TestCase):
 
     # UPDATE METHODS
     # ============================================== BEGIN
-    
+
     # update_current_state() UNIT TEST
     def run_update_current_state_test(self, move_pos, move_symbol, dim=3):
         n = dim ** 2
@@ -75,6 +75,11 @@ class TestGame(unittest.TestCase):
             with self.subTest(move=move_pos, symbol=move_symbol):
                 self.run_update_current_state_test(move_pos, move_symbol)
 
+    # def update_possible_moves(self, move : int) -> None:
+    #     move_str = str(move)
+    #     index = self.possible_moves.index(move_str)
+    #     self.possible_moves.pop(index)
+
     # ============================================== END
 """ 
     
@@ -83,11 +88,6 @@ class TestGame(unittest.TestCase):
         if move in self.possible_moves:
             return True
         return False
-
-    def update_possible_moves(self, move : int) -> None:
-        move_str = str(move)
-        index = self.possible_moves.index(move_str)
-        self.possible_moves.pop(index)
     
     def is_draw(self) -> bool:
         if self.winner == None:
