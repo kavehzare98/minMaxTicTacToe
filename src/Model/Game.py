@@ -1,206 +1,196 @@
 class Game:
     """
-    Game(dim: int)
+    Game(dim: int = 3)
 
-        A class to manage the core game logic of a generic square-based grid game.
+    Core game logic handler for a square grid game such as Tic Tac Toe.
+    Maintains game state, validates moves, determines win/draw conditions,
+    and supports game resets.
 
     Attributes:
-    ----------
-        dimension : int
-            An integer that determines the dimensions of the board and gets used to set total number of elements.
-        default_state : list
-            A list representing the initial state of the board, using '-' for empty.
-        menu_state : list
-            A list of strings representing the default user input choices, e.g., ['1', '2', ..., '9'].
-        current_state : list
-            A list representing the current state of the board.
-        possible_moves : list
-            A list of remaining valid move options.
-        winner : str or None
-            Tracks the winner's symbol ('X', 'O', etc.), or None if the game is ongoing or drawn.
-
-    Methods:
-    -------
-        validate_move(move: int) -> bool
-            Checks if a move is in the list of valid moves.
-
-        update_current_state(move: int, symbol: str) -> None
-            Updates the current board state with a symbol at a given move position.
-
-        update_possible_moves(move: int) -> None
-            Removes a move from the list of possible moves after it is played.
-
-        is_draw() -> bool
-            Returns True if the game is a draw (no empty cells and no winner).
-
-        get_dimension(self) -> int
-            Returns the number of columns
-        
-        get_rows() -> list
-            Returns the board as a list of rows.
-
-        get_cols() -> list
-            Returns the board as a list of columns.
-
-        get_diags() -> tuple
-            Returns the two diagonals of the board as a tuple of lists.
-
-        is_winner(p1_symbol, p2_symbol) -> bool
-            Checks all rows, columns, and diagonals for a winning condition.
-
-        reset_game() -> None
-            Resets the board to its default state, clearing the winner and moves.
+    -----------
+    dimension : int
+        Dimension of the square grid (e.g., 3 for a 3x3 board).
+    default_state : list
+        The initial empty board state using '-' to represent unoccupied tiles.
+    menu_state : list
+        User-facing labels for each tile (e.g., ['1', ..., '9']).
+    current_state : list
+        The current state of the game board.
+    possible_moves : list
+        The list of valid move labels that haven't been played yet.
+    winner : str or None
+        Tracks the winning symbol (e.g., 'X', 'O') or None if no winner.
     """
 
     def __init__(self, dim: int = 3):
+        """
+        Initializes a new game with a square board of dimension dim x dim.
+        """
         self.dimension = dim
         num_elements = dim ** 2
-        self.default_state = ['-' for i in range(num_elements)]
-        self.menu_state = [str(i) for i in range(1,num_elements+1)]
+        self.default_state = ['-' for _ in range(num_elements)]
+        self.menu_state = [str(i) for i in range(1, num_elements + 1)]
         self.current_state = self.default_state.copy()
         self.possible_moves = self.menu_state.copy()
         self.winner = None
 
-    # GETTERS
+    # ======== GETTERS ========
+
     def get_dimension(self) -> int:
+        """Returns the dimension of the game board."""
         return self.dimension
-    
+
     def get_default_state(self) -> list:
+        """Returns the initial empty state of the game board."""
         return self.default_state
-    
+
     def get_menu_state(self) -> list:
+        """Returns the display labels for the game board (e.g., ['1', ..., '9'])."""
         return self.menu_state
-    
+
     def get_current_state(self) -> list:
+        """Returns the current board state."""
         return self.current_state
-    
+
     def get_possible_moves(self) -> list:
+        """Returns the remaining possible moves."""
         return self.possible_moves
-    
+
     def get_winner(self) -> str:
+        """Returns the symbol of the winner, or None if no winner exists yet."""
         return self.winner
-    
-    # SETTERS
-    def set_default_state(self, new_state : list) -> None:
+
+    # ======== SETTERS ========
+
+    def set_default_state(self, new_state: list) -> None:
+        """Sets a new default state for the game."""
         self.default_state = new_state
 
-    def set_menu_state(self, new_state : list) -> None:
+    def set_menu_state(self, new_state: list) -> None:
+        """Sets a new menu state for user-facing tile labels."""
         self.menu_state = new_state
 
-    def set_current_state(self, new_state : list) -> None:
+    def set_current_state(self, new_state: list) -> None:
+        """Sets the current state of the board."""
         self.current_state = new_state
-        
-    def set_possible_moves(self, new_moves : list) -> None:
+
+    def set_possible_moves(self, new_moves: list) -> None:
+        """Sets the list of valid moves."""
         self.possible_moves = new_moves
 
     def set_winner(self, winner: str) -> None:
+        """Sets the winner of the game."""
         self.winner = winner
 
-    # HELPER FUNCTIONS
-    
-    def get_rows(self) -> list:
-        state = self.current_state
-        num_cols = self.get_dimension()
-        rows = [state[i:i+num_cols] for i in range(0, len(state), num_cols)]
-        return rows
-    
-    def get_cols(self) -> list:
-        state = self.current_state
-        num_cols = self.get_dimension()
-        cols = []
-        for i in range(num_cols):
-            col = []
-            for j in range(i, len(state), num_cols):
-                col.append(state[j])
-            cols.append(col)
-        return cols
-    
-    def get_diags(self) -> list:
-        state = self.current_state
-        num_cols = self.get_dimension()
-        backward_diag = []
-        forward_diag = []
+    # ======== BOARD STRUCTURE HELPERS ========
 
-        for i in range(1, num_cols + 1):
-            backward_diag.append(state[(i - 1) * (num_cols + 1)])
-            forward_diag.append(state[i * (num_cols - 1)])
+    def get_rows(self) -> list:
+        """
+        Returns the current board state divided into rows.
+        """
+        state = self.current_state
+        dim = self.get_dimension()
+        return [state[i:i + dim] for i in range(0, len(state), dim)]
+
+    def get_cols(self) -> list:
+        """
+        Returns the current board state divided into columns.
+        """
+        state = self.current_state
+        dim = self.get_dimension()
+        return [[state[i + j * dim] for j in range(dim)] for i in range(dim)]
+
+    def get_diags(self) -> tuple:
+        """
+        Returns both diagonals from the board.
+
+        Returns:
+            tuple: (backward_diag, forward_diag)
+                - backward_diag: top-left to bottom-right
+                - forward_diag: top-right to bottom-left
+        """
+        state = self.current_state
+        dim = self.get_dimension()
+
+        backward_diag = [state[i * (dim + 1)] for i in range(dim)]
+        forward_diag = [state[(i + 1) * (dim - 1)] for i in range(dim)]
 
         return (backward_diag, forward_diag)
-    
-    # SPECIAL METHODS
-    def validate_move(self, move : int) -> bool:
-        move_str = str(move)
-        if move_str in self.possible_moves:
-            return True
-        return False
-    
+
+    # ======== GAMEPLAY METHODS ========
+
+    def validate_move(self, move: int) -> bool:
+        """
+        Checks if the move is valid (still available).
+
+        Args:
+            move (int): The move position entered by the player.
+
+        Returns:
+            bool: True if move is valid, False otherwise.
+        """
+        return str(move) in self.possible_moves
+
     def update_current_state(self, move: int, symbol: str) -> None:
-        move_index = move - 1
-        self.current_state[move_index] = symbol
+        """
+        Applies a move to the board state.
 
-    def update_possible_moves(self, move : int) -> None:
-        move_str = str(move)
-        index = self.possible_moves.index(move_str)
-        self.possible_moves.pop(index)
-    
+        Args:
+            move (int): Board position to update.
+            symbol (str): Player's symbol ('X' or 'O').
+        """
+        self.current_state[move - 1] = symbol
+
+    def update_possible_moves(self, move: int) -> None:
+        """
+        Removes a move from the list of valid options.
+
+        Args:
+            move (int): The move to remove.
+        """
+        self.possible_moves.remove(str(move))
+
     def is_draw(self) -> bool:
-        if self.winner == None:
-            empty_count = self.current_state.count('-')
-            if empty_count == 0:
-                return True
-        return False
+        """
+        Determines if the game has ended in a draw (no more moves and no winner).
 
-    # DETERMINE WINNER
-    def is_winner(self, p1_symbol, p2_symbol) -> bool:
-        winning_num = self.get_dimension()
-        found_winner = False
+        Returns:
+            bool: True if draw, False otherwise.
+        """
+        return self.winner is None and '-' not in self.current_state
 
-        # Call helper functions get lists of rows, columns, and diagonals
+    def is_winner(self, p1_symbol: str, p2_symbol: str) -> bool:
+        """
+        Checks the board for a winning condition for either player.
+
+        Args:
+            p1_symbol (str): First player's symbol.
+            p2_symbol (str): Second player's symbol.
+
+        Returns:
+            bool: True if either player has won.
+        """
+        dim = self.get_dimension()
         rows = self.get_rows()
         cols = self.get_cols()
         diags = self.get_diags()
 
-        # Check rows for winning condition
-        for row in rows:
-            if found_winner == False:
-                if row.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif row.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
+        # Check all rows, columns, and diagonals for a win
+        for group in rows + cols + list(diags):
+            if group.count(p1_symbol) == dim:
+                self.winner = p1_symbol
+                return True
+            elif group.count(p2_symbol) == dim:
+                self.winner = p2_symbol
+                return True
 
-        # If winner found, quit function
-        if found_winner:
-            return found_winner
-        
-        # Check columns for winning condition
-        for col in cols:
-            if found_winner == False:
-                if col.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif col.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
-        
-        if found_winner:
-            return found_winner
+        return False
 
-        # Check forward and backward diagonals for winning condition
-        for diag in diags:
-            if found_winner == False:
-                if diag.count(p1_symbol) == winning_num:
-                    self.winner = p1_symbol
-                    found_winner = True
-                elif diag.count(p2_symbol) == winning_num:
-                    self.winner = p2_symbol
-                    found_winner = True
-
-        return found_winner
-    
-    # RESET GAME
     def reset_game(self) -> None:
+        """
+        Resets the game state to its original values.
+        Clears the board, restores possible moves, and removes the winner.
+        """
         self.current_state = self.default_state.copy()
         self.possible_moves = self.menu_state.copy()
         self.winner = None
