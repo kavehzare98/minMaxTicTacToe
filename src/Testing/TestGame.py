@@ -149,18 +149,71 @@ class TestGame(unittest.TestCase):
 
         for case in test_cases:
             self.run_is_draw_test(case)
+
+    # is_winner() UNIT TEST
+    def run_is_winner_test(self, new_state: list, expected_flag: bool, dim: int=3):
+        p1_symbol = 'X'
+        p2_symbol = 'O'
+        game = Game(dim)
+        game.set_current_state(new_state)
+        actual_flag = game.is_winner(p1_symbol, p2_symbol)
+        self.assertEqual(actual_flag, expected_flag)
+
+    # is_winner() TEST CASES
+    def test_is_winner_cases(self):
+        # No Winners
+        no_winner_cases = non_winning_cases = [
+            ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'],  # Full board, no winner
+            ['X', 'O', 'X', 'O', 'X', '-', 'O', 'X', 'O'],  # Almost full, no winner
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-'],  # Empty board
+            ['X', 'O', 'X', '-', 'X', 'O', '-', 'O', '-'],  # In progress, no win
+            ['O', 'X', 'O', 'X', 'O', 'X', '-', '-', '-'],  # Draw in progress
+            ['X', 'O', '-', 'X', '-', 'O', '-', 'X', '-'],  # Scattered, no win
+            ['-', 'X', 'O', 'O', '-', 'X', 'X', 'O', '-'],  # Random no win
+            ['O', 'X', 'O', 'O', 'X', '-', 'X', 'O', 'X'],  # Close game, no win
+            ['X', 'O', '-', 'O', 'X', 'X', '-', '-', 'O'],  # In progress, no win
+        ]
+
+        # Winner
+        winner_cases = winning_cases = [
+            # Rows
+            ['X', 'X', 'X', '-', '-', '-', '-', '-', '-'],
+            ['-', '-', '-', 'O', 'O', 'O', '-', '-', '-'],
+            ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
+            
+            # Columns
+            ['O', '-', '-', 'O', '-', '-', 'O', '-', '-'],
+            ['-', 'X', '-', '-', 'X', '-', '-', 'X', '-'],
+            ['-', '-', 'O', '-', '-', 'O', '-', '-', 'O'],
+            
+            # Diagonals
+            ['X', '-', '-', '-', 'X', '-', '-', '-', 'X'],
+            ['-', '-', 'O', '-', 'O', '-', 'O', '-', '-'],
+            
+            # Additional mixed winning cases (alternate symbols, scattered placement)
+            ['X', 'X', 'X', 'O', '-', 'O', '-', '-', '-'],
+            ['O', 'X', 'X', 'O', 'X', '-', 'O', '-', '-'],
+            ['-', 'O', '-', '-', 'O', '-', '-', 'O', 'X'],
+            ['X', '-', '-', '-', 'X', 'O', '-', '-', 'X'],
+            ['O', '-', 'X', 'O', 'X', '-', 'O', '-', '-'],
+            ['-', '-', 'O', '-', 'O', 'X', 'O', '-', '-'],
+            ['-', '-', 'X', '-', 'X', 'O', 'X', '-', 'O'],
+            ['O', '-', 'O', '-', 'O', '-', 'O', '-', 'X'],
+            ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
+        ]
+
+        winner_flag = False
+        for case in no_winner_cases:
+            self.run_is_winner_test(case, winner_flag)
         
+        winner_flag = True
+        for case in winner_cases:
+            self.run_is_draw_test(case, winner_flag)
+
     # ============================================== END
 
 
 """   
-    
-    def is_draw(self) -> bool:
-        if self.winner == None:
-            empty_count = self.current_state.count('-')
-            if empty_count == 0:
-                return True
-        return False
 
     # DETERMINE WINNER
     def is_winner(self, p1_symbol, p2_symbol) -> bool:

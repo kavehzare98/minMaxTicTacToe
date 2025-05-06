@@ -1,42 +1,68 @@
-import random
+from src.Model.Game import Game
 
-def calculate_medium_move(possible_moves: list, state_dimension: int) -> int:
+def test():
+
+    game = Game()
+
+    no_winner_cases = non_winning_cases = [
+        ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'],  # Full board, no winner
+        ['X', 'O', 'X', 'O', 'X', '-', 'O', 'X', 'O'],  # Almost full, no winner
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-'],  # Empty board
+        ['X', 'O', 'X', '-', 'X', 'O', '-', 'O', '-'],  # In progress, no win
+        ['O', 'X', 'O', 'X', 'O', 'X', '-', '-', '-'],  # Draw in progress
+        ['X', 'O', '-', 'X', '-', 'O', '-', 'X', '-'],  # Scattered, no win
+        ['-', 'X', 'O', 'O', '-', 'X', 'X', 'O', '-'],  # Random no win
+        ['O', 'X', 'O', 'O', 'X', '-', 'X', 'O', 'X'],  # Close game, no win
+        ['X', 'O', '-', 'O', 'X', 'X', '-', '-', 'O'],  # In progress, no win
+    ]
+
+    # Winner
+    winner_cases = winning_cases = [
+        # Rows
+        ['X', 'X', 'X', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', 'O', 'O', 'O', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
         
-    dim = state_dimension
-    corners = [0, int(dim - 1), int(dim * (dim - 1)), int((dim + 1) * (dim - 1))]
+        # Columns
+        ['O', '-', '-', 'O', '-', '-', 'O', '-', '-'],
+        ['-', 'X', '-', '-', 'X', '-', '-', 'X', '-'],
+        ['-', '-', 'O', '-', '-', 'O', '-', '-', 'O'],
+        
+        # Diagonals
+        ['X', '-', '-', '-', 'X', '-', '-', '-', 'X'],
+        ['-', '-', 'O', '-', 'O', '-', 'O', '-', '-'],
+        
+        # Additional mixed winning cases (alternate symbols, scattered placement)
+        ['X', 'X', 'X', 'O', '-', 'O', '-', '-', '-'],
+        ['O', 'X', 'X', 'O', 'X', '-', 'O', '-', '-'],
+        ['-', 'O', '-', '-', 'O', '-', '-', 'O', 'X'],
+        ['X', '-', '-', '-', 'X', 'O', '-', '-', 'X'],
+        ['O', '-', 'X', 'O', 'X', '-', 'O', '-', '-'],
+        ['-', '-', 'O', '-', 'O', 'X', 'O', '-', '-'],
+        ['-', '-', 'X', '-', 'X', 'O', 'X', '-', 'O'],
+        ['O', '-', 'O', '-', 'O', '-', 'O', '-', 'X'],
+        ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
+    ]
+
+    p1_symbol = 'X'
+    p2_symbol = 'O'
+
+    winner_flag = False
+    case_num = 1
+    for case in no_winner_cases:
+        game.set_current_state(case)
+        flag = game.is_winner(p1_symbol, p2_symbol)
+        if winner_flag != flag:
+            print(f"NO WINNER: FAILED case number: {case_num}\n", case)
+        case_num += 1
+
+    winner_flag = True
+    case_num = 1
+    for case in winner_cases:
+        game.set_current_state(case)
+        flag = game.is_winner(p1_symbol, p2_symbol)
+        if winner_flag != flag:
+            print(f"WINNER: FAILED case number: {case_num}\n", case)
+        case_num += 1
     
-    if dim % 2 == 0:
-        center_top_left = (corners[0] + corners[-1]) // 2
-        center_bottom_left = center_top_left + dim
-        center = [center_top_left, center_top_left + 1, center_bottom_left, center_bottom_left + 1]
-    
-    else:
-        center = [(corners[0] + corners[-1]) // 2]
-
-    corners_plus_center = corners + center
-    choices = [str(index + 1) for index in corners_plus_center]
-    random.shuffle(choices)
-    
-    for choice in choices:
-        if choice in possible_moves:
-            move = int(choice)
-            return move
-            
-    choice_str = random.choice(possible_moves)
-    move = int(choice_str)
-    return move    
-    
-
-possible_moves = [str(i) for i in range(1, 17)]
-dim = 4
-
-expected = [i for i in range(1, 17)]
-
-for i in range(50):
-    move = calculate_medium_move(possible_moves, dim)
-    if move not in expected:
-        print("Unexpected: ", move)
-    else:
-        print("Expected: ", move)
-
-print("Done!")
+test()
