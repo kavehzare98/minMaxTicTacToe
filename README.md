@@ -5,26 +5,26 @@ A simple implementation of Tic Tac Toe:
 ## How to Run:
 
 ```bash
-# After cloning the repo
+# After cloning the repo, run the current working version for CLI
 
-cd src
-python3 main.py
+cd procedural_program
+python main.py
 
 # Now play the game
 ```
 
 ## To Do:
 
-1. Implement multiplayer mode
-2. Implement a medium difficulty (with corner and center priority)
-3. Implement a GUI (pygame or web-based)
+1. Implement a medium difficulty (with corner and center priority)
+2. Implement a GUI with Tkinter
 
 ## Doing:
 
-1. Refactor OOP version to match Model-View-Controller (MVC) Design Pattern
-2. Implement GUI version of the game via pygame, I can display a grid and symbols
+1. Model-View-Controller (MVC) Refactoring, which integrates different levels of difficulty and multiplayer mode
 
 ## Done:
 
 1. Procedural implementation (easy difficulty)
 2. Object-Oriented Implementation (easy difficulty)
+3. Implemented 2 levels of difficulty (easy and medium)
+4. Fully designed MVC, now implementing.

@@ -104,4 +104,3 @@ class Player:
     def update_score(self, increment: int) -> int:
         self.score += increment
         return self.score
-
