@@ -68,7 +68,7 @@ class Player:
 
     # ========= SPECIAL METHODS =========
 
-    def move_request(self, possible_moves: list, state_dimension: int) -> Tuple[int, int]:
+    def move_request(self, possible_moves: list, state_dimension: int) -> Tuple[int, str]:
         """
         Determines and returns the move based on difficulty or player type.
 
@@ -80,7 +80,7 @@ class Player:
             Tuple[int, int]: A tuple with the mode of the move and the selected move position.
         """
         if self.is_human:
-            return (Mode.HUMAN, 0)
+            return (Mode.HUMAN, '0')
         
         elif self.difficulty_mode == Mode.EASY:
             move = self.calculate_easy_move(possible_moves)
@@ -96,7 +96,7 @@ class Player:
 
     # ========= MOVE LOGIC METHODS =========
 
-    def calculate_easy_move(self, possible_moves: list) -> int:
+    def calculate_easy_move(self, possible_moves: list) -> str:
         """
         Selects a random move from the list of available moves.
 
@@ -106,10 +106,10 @@ class Player:
         Returns:
             int: The chosen move as an integer.
         """
-        choice_str = random.choice(possible_moves)
-        return int(choice_str)
+        move_choice = random.choice(possible_moves)
+        return move_choice
     
-    def calculate_medium_move(self, possible_moves: list, state_dimension: int) -> int:
+    def calculate_medium_move(self, possible_moves: list, state_dimension: int) -> str:
         """
         Selects a move by preferring corners and center tiles, then defaults to random.
 
@@ -136,12 +136,12 @@ class Player:
 
         for choice in preferred_choices:
             if choice in possible_moves:
-                return int(choice)
+                return choice
 
         # Fallback to a random move
-        return int(random.choice(possible_moves))
+        return random.choice(possible_moves)
     
-    def calculate_hard_move(self, possible_moves: list, state_dimension: int) -> int:
+    def calculate_hard_move(self, possible_moves: list, state_dimension: int) -> str:
         """
         Placeholder for hard mode logic (e.g., Minimax algorithm).
 
@@ -152,7 +152,7 @@ class Player:
         Returns:
             int: Selected move (currently always returns 0).
         """
-        return 0
+        return '0'
 
     # ========= SCORE METHOD =========
 

@@ -1,68 +1,36 @@
-from src.Model.Game import Game
+def display_grid(state : list, state_name : str) -> None:
+    print(f"{state_name}:", end='\n\n')
+    dimension = int(len(state) ** 0.5)
+    num_for_divider = 5 * dimension - 2
+    index = 0
+    for row in range(dimension):
+        for col in range(dimension):
+            if col < (dimension - 1):
+                print(f' {state[index]} ', end='')
+                print('||', end='')
+            else:
+                print(f' {state[index]} ', end='')
+            index += 1
+
+        print()
+        if row < (dimension - 1):
+            print(num_for_divider * "=")
+    print()
+
 
 def test():
 
-    game = Game()
-
-    no_winner_cases = non_winning_cases = [
+    cases = [
         ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'],  # Full board, no winner
         ['X', 'O', 'X', 'O', 'X', '-', 'O', 'X', 'O'],  # Almost full, no winner
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],  # Empty board
-        ['X', 'O', 'X', '-', 'X', 'O', '-', 'O', '-'],  # In progress, no win
-        ['O', 'X', 'O', 'X', 'O', 'X', '-', '-', '-'],  # Draw in progress
-        ['X', 'O', '-', 'X', '-', 'O', '-', 'X', '-'],  # Scattered, no win
-        ['-', 'X', 'O', 'O', '-', 'X', 'X', 'O', '-'],  # Random no win
-        ['O', 'X', 'O', 'O', 'X', '-', 'X', 'O', 'X'],  # Close game, no win
-        ['X', 'O', '-', 'O', 'X', 'X', '-', '-', 'O'],  # In progress, no win
     ]
 
-    # Winner
-    winner_cases = winning_cases = [
-        # Rows
-        ['X', 'X', 'X', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', 'O', 'O', 'O', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
-        
-        # Columns
-        ['O', '-', '-', 'O', '-', '-', 'O', '-', '-'],
-        ['-', 'X', '-', '-', 'X', '-', '-', 'X', '-'],
-        ['-', '-', 'O', '-', '-', 'O', '-', '-', 'O'],
-        
-        # Diagonals
-        ['X', '-', '-', '-', 'X', '-', '-', '-', 'X'],
-        ['-', '-', 'O', '-', 'O', '-', 'O', '-', '-'],
-        
-        # Additional mixed winning cases (alternate symbols, scattered placement)
-        ['X', 'X', 'X', 'O', '-', 'O', '-', '-', '-'],
-        ['O', 'X', 'X', 'O', 'X', '-', 'O', '-', '-'],
-        ['-', 'O', '-', '-', 'O', '-', '-', 'O', 'X'],
-        ['X', '-', '-', '-', 'X', 'O', '-', '-', 'X'],
-        ['O', '-', 'X', 'O', 'X', '-', 'O', '-', '-'],
-        ['-', '-', 'O', '-', 'O', 'X', 'O', '-', '-'],
-        ['-', '-', 'X', '-', 'X', 'O', 'X', '-', 'O'],
-        ['O', '-', 'O', '-', 'O', '-', 'O', '-', 'X'],
-        ['-', '-', '-', '-', '-', '-', 'X', 'X', 'X'],
-    ]
+    menu = [str(num) for num in range(1, 5)]
 
-    p1_symbol = 'X'
-    p2_symbol = 'O'
+    for case in cases:
+        display_grid(case, "CURRENT")
 
-    winner_flag = False
-    case_num = 1
-    for case in no_winner_cases:
-        game.set_current_state(case)
-        flag = game.is_winner(p1_symbol, p2_symbol)
-        if winner_flag != flag:
-            print(f"NO WINNER: FAILED case number: {case_num}\n", case)
-        case_num += 1
-
-    winner_flag = True
-    case_num = 1
-    for case in winner_cases:
-        game.set_current_state(case)
-        flag = game.is_winner(p1_symbol, p2_symbol)
-        if winner_flag != flag:
-            print(f"WINNER: FAILED case number: {case_num}\n", case)
-        case_num += 1
+    display_grid(menu, "MENU")
     
 test()
