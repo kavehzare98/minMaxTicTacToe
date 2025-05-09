@@ -8,7 +8,7 @@ class Player:
     with different difficulty levels for AI-controlled players.
     """
 
-    def __init__(self, difficulty_mode=Mode.HUMAN):
+    def __init__(self):
         """
         Initializes a new Player instance.
 
@@ -17,10 +17,10 @@ class Player:
                                    Defaults to Mode.HUMAN.
         """
         self.symbol = None
-        self.is_human = None
         self.name = None
-        self.difficulty_mode = difficulty_mode
         self.score = 0
+        self.difficulty_mode = None
+        self.is_human = None
 
     # ========= GETTERS =========
 
@@ -61,6 +61,10 @@ class Player:
     def set_difficulty_mode(self, new_mode: int) -> None:
         """Sets the difficulty level of the player."""
         self.difficulty_mode = new_mode
+        if self.difficulty_mode == Mode.HUMAN:
+            self.set_human_flag(True)
+        else:
+            self.set_human_flag(False)
 
     def set_score(self, new_score: int) -> None:
         """Sets the player's score."""
