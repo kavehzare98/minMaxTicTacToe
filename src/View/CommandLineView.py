@@ -1,5 +1,5 @@
 
-from View.Art import Art
+from .Art import Art
 
 class CommandLineView:
     def __init__(self):
@@ -7,9 +7,9 @@ class CommandLineView:
         self.name_message   =  "What's Your Name?\t"
         self.move_message   =  "What's Your Next Move:\t"
         self.error_message  =  "ERROR: Invalid Input!"
-        self.wining_message =  "The Following Player Wins:\t"
+        self.winning_message =  "The Following Player Wins:\t"
         self.draw_message   =  "It's a TIE!"
-        self.ascii_art      =  Art
+        self.ascii_art      =  Art()
         self.mode_message   =  "Please Choose a Mode:\t"
         self.mode_menu      = """
 0.\tMULTIPLAYER
@@ -62,8 +62,8 @@ class CommandLineView:
     def set_draw_message(self, new_message: str) -> None:
         self.draw_message = new_message
     
-    def set_menu_mode(self, new_menu: str) -> None:
-        self.menu_mode = new_menu
+    def set_mode_menu(self, new_menu: str) -> None:
+        self.mode_menu = new_menu
 
     def set_mode_message(self, new_mode: str) -> None:
         self.mode_message = new_mode

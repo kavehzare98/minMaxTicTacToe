@@ -1,7 +1,7 @@
 
 class Art:
-    def __init__(self):
-        self.welcome = '''
+  def __init__(self):
+    self.welcome = '''
                                                
  _ _ _     _                                   
 | | | |___| |___ ___ _____ ___                 
@@ -21,7 +21,7 @@ class Art:
   |_| |_|___|    |_| |__,|___|    |_| |___|___|
                                                
 '''
-        self.game_over = '''
+    self.game_over = '''
                                           __ 
  _____                  _____            |  |
 |   __|___ _____ ___   |     |_ _ ___ ___|  |
@@ -30,8 +30,8 @@ class Art:
                               
 '''
 
-    def get_welcome(self):
-        return self.welcome
+  def get_welcome(self):
+    return self.welcome
     
-    def get_game_over(self):
-        return self.game_over
+  def get_game_over(self):
+    return self.game_over
