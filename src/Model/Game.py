@@ -119,17 +119,18 @@ class Game:
 
     # ======== GAMEPLAY METHODS ========
 
-    def validate_move(self, move: int) -> bool:
-        """
-        Checks if the move is valid (still available).
+    #! Useless
+    # def validate_move(self, move: int) -> bool:
+    #     """
+    #     Checks if the move is valid (still available).
 
-        Args:
-            move (int): The move position entered by the player.
+    #     Args:
+    #         move (int): The move position entered by the player.
 
-        Returns:
-            bool: True if move is valid, False otherwise.
-        """
-        return str(move) in self.possible_moves
+    #     Returns:
+    #         bool: True if move is valid, False otherwise.
+    #     """
+    #     return str(move) in self.possible_moves
 
     def update_current_state(self, move: int, symbol: str) -> None:
         """

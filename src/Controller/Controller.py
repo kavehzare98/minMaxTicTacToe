@@ -86,6 +86,10 @@ class Controller:
         # Display Header
         self.view.display_header()
 
+        # Game constants, defined in one place
+        menu_state =        self.game.get_menu_state()
+        dimension =         self.game.get_dimension()
+
         # ====== START ====== PROMPT & INPUT VALIDATION
         # Prompt the user if they want to play
         raw_start_response = self.view.prompt_to_start()
@@ -117,6 +121,7 @@ class Controller:
             valid_modes = self.get_possible_modes()
             is_valid_mode = self.validate_input(clean_mode, valid_modes)
 
+            
             if is_valid_mode:
                 
                 # Convert the Mode to Integer format
@@ -126,35 +131,67 @@ class Controller:
                 self.player_2.set_difficulty_mode(mode_int)
 
                 current_winner = self.game.get_winner()
+                
+                if mode_int == Mode.HUMAN:
+                    # ASK PLAYER FOR NAME, CLEAN, and SET as Player 2 Name
+                    raw_name_input = self.view.prompt_for_name()
+                    clean_name_input = self.clean_user_input(raw_name_input)
+                    self.player_2.set_name(clean_name_input)
+                else:
+                    self.player_2.set_name("Computer")
 
+                # Game Loop
                 while current_winner == None:
 
-                    # Get Menu, Current State, and Possible Moves
-                    menu_state =        self.game.get_menu_state()
+                    # Get Current State, and Possible Moves
                     current_state =     self.game.get_current_state()
                     possible_moves =    self.game.get_possible_moves()
-                    dimension =         self.game.get_dimension()
-
 
                     # Obtain Player 1 Mode and Move
                     p1_mode, p1_move =  self.player_1.move_request(possible_moves, dimension)
 
-                    if p1_mode == Mode.HUMAN:
-                        
-                        self.view.display_player_turn()
-                        p1_move = self.view.prompt_for_move()
-                        clean_p1_move = self.clean_user_input(p1_move)
-                        is_valid_p1_move = self.validate_input(clean_p1_move, possible_moves)
-                        if is_valid_p1_move:
-                            p1_move_int = int(clean_p1_move)
-                            self.game.update_current_state(p1_move_int, player_1_symbol)
-                            self.game.update_possible_moves(p1_move_int)
+                    # Take & Validate p1 move
+                    self.view.display_grid(menu_state, "MENU")
+                    self.view.display_error(current_state, "CURRENT")
+                    raw_p1_move_input = self.view.prompt_for_move(self.player_1.get_name())
+                    clean_p1_move_input = self.clean_user_input(raw_p1_move_input)
+                    is_valid_p1_move = self.validate_input(clean_p1_move_input, possible_moves)
 
-                        
-                    # Update Current State and Possible Moves
-                    updated_current_state = self.game.get_current_state()
-                    updated_possible_moves = self.game.get_possible_moves()
 
+                    # Multiplayer Scenario
+                    if is_valid_p1_move and self.player_2.get_human_flag():
+                        
+                        # Update Current State and Possible Moves
+                        p1_move_int = int(clean_p1_move_input)
+                        self.game.update_current_state(p1_move_int, player_1_symbol)
+                        self.game.update_possible_moves(p1_move_int)
+                        
+                        updated_current_state = self.game.get_current_state()
+                        updated_possible_moves = self.game.get_possible_moves()
+
+                        # Take & Validate p2 move
+                        self.view.display_grid(menu_state, "MENU")
+                        self.view.display_error(current_state, "CURRENT")
+                        raw_p2_move_input = self.view.prompt_for_move(self.player_2.get_name())
+                        clean_p2_move_input = self.clean_user_input(raw_p2_move_input)
+                        is_valid_p2_move = self.validate_input(clean_p2_move_input, possible_moves)
+
+
+
+
+                    # Single Player
+                    elif is_valid_p1_move:
+                        # Update Current State and Possible Moves
+                        p1_move_int = int(clean_p1_move_input)
+                        self.game.update_current_state(p1_move_int, player_1_symbol)
+                        self.game.update_possible_moves(p1_move_int)
+                        
+                        updated_current_state = self.game.get_current_state()
+                        updated_possible_moves = self.game.get_possible_moves()
+
+            
+
+                   
                     # Check for Winner
                     is_draw = self.game.check_for_draw()
                     is_winner = self.game.check_for_winner()
@@ -165,7 +202,7 @@ class Controller:
                     elif is_draw == True:
                         self.view.display_tie()
                     
-                    
+
 
                 # SHOWS GAME OVER
                 self.view.display_footer()
