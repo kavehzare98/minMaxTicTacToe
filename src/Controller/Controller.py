@@ -6,9 +6,13 @@ from ..Model.Config import Mode
 class Controller:
     def __init__(self):
         self.player_1   = Player()
+        # Setter for Player class will set the is_human flag accordingly when called
         self.player_1.set_difficulty_mode(Mode.HUMAN)   # First player is always a HUMAN
+        self.player_1.set_symbol('X')
 
         self.player_2   = Player()
+        self.player_2.set_symbol('O')
+
         self.game       = Game(dim=3)
         self.view       = CommandLineView()
         self.possible_yes_no = ['y', 'n', 'q']
@@ -88,30 +92,81 @@ class Controller:
         clean_start_response = self.clean_user_input(raw_start_response)
 
         # Extract the first character of the cleaned (stripped and lowercase) response
-        first_char_response = self.extract_first_char(clean_start_response)
+        char_start_response = self.extract_first_char(clean_start_response)
 
         # Validate the response
         valid_responses = self.get_possible_yes_no()
-        start_is_valid = self.validate_input(first_char_response, valid_responses)
+        is_valid_start = self.validate_input(char_start_response, valid_responses)
         # ====== END ====== PROMPT & INPUT VALIDATION
 
-        while start_is_valid and first_char_response == 'y':
+        # Get Player Symbols
+        player_1_symbol = self.player_1.get_symbol()
+        player_2_symbol = self.player_2.get_symbol()
+
+        while is_valid_start and char_start_response == 'y':
 
             # ASK PLAYER FOR NAME, CLEAN, and SET as Player 1 Name
             raw_name_input = self.view.prompt_for_name()
             clean_name_input = self.clean_user_input(raw_name_input)
             self.player_1.set_name(clean_name_input)
-            self.player_1.set_symbol('X')
 
             # ASK PLAYER FOR MODE
             raw_mode = self.view.prompt_for_mode()
             clean_mode = self.clean_user_input(raw_mode)
 
             valid_modes = self.get_possible_modes()
-            mode_is_valid = self.validate_input(clean_mode, valid_modes)
+            is_valid_mode = self.validate_input(clean_mode, valid_modes)
 
-            if mode_is_valid:
-            
+            if is_valid_mode:
+                
+                # Convert the Mode to Integer format
+                mode_int = int(clean_mode)
+
+                # Set the Mode for Player 2
+                self.player_2.set_difficulty_mode(mode_int)
+
+                current_winner = self.game.get_winner()
+
+                while current_winner == None:
+
+                    # Get Menu, Current State, and Possible Moves
+                    menu_state =        self.game.get_menu_state()
+                    current_state =     self.game.get_current_state()
+                    possible_moves =    self.game.get_possible_moves()
+                    dimension =         self.game.get_dimension()
+
+
+                    # Obtain Player 1 Mode and Move
+                    p1_mode, p1_move =  self.player_1.move_request(possible_moves, dimension)
+
+                    if p1_mode == Mode.HUMAN:
+                        
+                        self.view.display_player_turn()
+                        p1_move = self.view.prompt_for_move()
+                        clean_p1_move = self.clean_user_input(p1_move)
+                        is_valid_p1_move = self.validate_input(clean_p1_move, possible_moves)
+                        if is_valid_p1_move:
+                            p1_move_int = int(clean_p1_move)
+                            self.game.update_current_state(p1_move_int, player_1_symbol)
+                            self.game.update_possible_moves(p1_move_int)
+
+                        
+                    # Update Current State and Possible Moves
+                    updated_current_state = self.game.get_current_state()
+                    updated_possible_moves = self.game.get_possible_moves()
+
+                    # Check for Winner
+                    is_draw = self.game.check_for_draw()
+                    is_winner = self.game.check_for_winner()
+                        
+                    if is_draw == False and is_winner == False:
+                        p2_mode, p2_move =  self.player_2.move_request(updated_possible_moves, dimension)
+
+                    elif is_draw == True:
+                        self.view.display_tie()
+                    
+                    
+
                 # SHOWS GAME OVER
                 self.view.display_footer()
             
@@ -122,11 +177,11 @@ class Controller:
             clean_start_response = self.clean_user_input(raw_start_response)
 
             # Extract the first character of the cleaned (stripped and lowercase) response
-            first_char_response = self.extract_first_char(clean_start_response)
+            char_start_response = self.extract_first_char(clean_start_response)
 
             # Validate the response
             valid_responses = self.get_possible_yes_no()
-            start_is_valid = self.validate_input(first_char_response, valid_responses)
+            is_valid_start = self.validate_input(char_start_response, valid_responses)
             # ====== END ====== PROMPT & INPUT VALIDATION
 
         # QUIT GAME #! FIX LATER, This shouldn't be handled by Controller

@@ -106,6 +106,9 @@ class CommandLineView:
     def display_error(self) -> None:
         print(f'\n{self.get_error_message()}\n')
 
+    def display_player_turn(self, player_name: str) -> None:
+        print(f"\nIt's {player_name}'s TURN!")
+
     # ====== PROMPTS ===========
     def prompt_to_start(self) -> str:
         user_input = input(self.get_start_message())

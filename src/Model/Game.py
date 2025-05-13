@@ -150,7 +150,7 @@ class Game:
         """
         self.possible_moves.remove(str(move))
 
-    def is_draw(self) -> bool:
+    def check_for_draw(self) -> bool:
         """
         Determines if the game has ended in a draw (no more moves and no winner).
 
@@ -159,7 +159,7 @@ class Game:
         """
         return self.winner is None and '-' not in self.current_state
 
-    def is_winner(self, p1_symbol: str, p2_symbol: str) -> bool:
+    def check_for_winner(self, p1_symbol: str, p2_symbol: str) -> bool:
         """
         Checks the board for a winning condition for either player.
 
