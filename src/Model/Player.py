@@ -72,7 +72,7 @@ class Player:
 
     # ========= SPECIAL METHODS =========
 
-    def move_request(self, possible_moves: list, state_dimension: int) -> Tuple[int, str]:
+    def move_request(self, possible_moves: list, state_dimension: int) -> int:
         """
         Determines and returns the move based on difficulty or player type.
 
@@ -81,22 +81,20 @@ class Player:
             state_dimension (int): The dimension of the game board (e.g., 3 for 3x3).
 
         Returns:
-            Tuple[int, int]: A tuple with the mode of the move and the selected move position.
+            Tuple[int, str]: A tuple with the mode of the move and the selected move position.
         """
-        if self.is_human:
-            return (Mode.HUMAN, '0')
         
-        elif self.difficulty_mode == Mode.EASY:
+        if self.difficulty_mode == Mode.EASY:
             move = self.calculate_easy_move(possible_moves)
-            return (Mode.EASY, move)
         
         elif self.difficulty_mode == Mode.MEDIUM:
             move = self.calculate_medium_move(possible_moves, state_dimension)
-            return (Mode.MEDIUM, move)
         
         elif self.difficulty_mode == Mode.HARD:
             move = self.calculate_hard_move(possible_moves, state_dimension)
-            return (Mode.HARD, move)
+            
+        move_int = int(move)
+        return move_int
 
     # ========= MOVE LOGIC METHODS =========
 

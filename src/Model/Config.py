@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import IntEnum
 
-class Mode(Enum):
+class Mode(IntEnum):
     HUMAN = 0
     EASY = 1
     MEDIUM = 2

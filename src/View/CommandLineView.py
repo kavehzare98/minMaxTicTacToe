@@ -5,6 +5,7 @@ class CommandLineView:
     def __init__(self):
         self.start_message  =  "Would You Like to Start the Game?\t"
         self.name_message   =  "What's Your Name?\t"
+        self.symbol_message =  "What will be your Symbol (Any Character)?\t"
         self.move_message   =  "What's Your Next Move:\t"
         self.error_message  =  "ERROR: Invalid Input!"
         self.winning_message =  "The Following Player Wins:\t"
@@ -42,6 +43,9 @@ class CommandLineView:
     
     def get_mode_message(self) -> str:
         return self.mode_message
+    
+    def get_symbol_message(self) -> str:
+        return self.symbol_message
 
     # ====== SETTERS ===========
     def set_start_message(self, new_message: str) -> None:
@@ -68,8 +72,11 @@ class CommandLineView:
     def set_mode_message(self, new_mode: str) -> None:
         self.mode_message = new_mode
 
+    def set_symbol_message(self, new_message: str) -> None:
+        self.symbol_message = new_message
+
     # ====== DISPLAYS ===========
-    def display_header(self) -> None:
+    def display_welcome(self) -> None:
         print(self.ascii_art.get_welcome())
     
     def display_footer(self) -> None:
@@ -110,20 +117,19 @@ class CommandLineView:
         print(f"\nIt's {player_name}'s TURN!")
 
     # ====== PROMPTS ===========
-    def prompt_to_start(self) -> str:
-        user_input = input(self.get_start_message())
-        return user_input
+    def prompt_for_start(self) -> str:
+        return input(self.get_start_message())
     
     def prompt_for_name(self) -> str:
-        user_input = input(self.get_name_message())
-        return user_input
+        return input(self.get_name_message())
     
     def prompt_for_mode(self) -> str:
         print(self.get_mode_menu())
-        user_input = input(self.get_mode_message())
-        return user_input
+        return input(self.get_mode_message())
     
     def prompt_for_move(self, player_name: str) -> str:
         print(f"It's {player_name}'s TURN!")
-        user_input = input(self.get_move_message())
-        return user_input
+        return input(self.get_move_message())
+    
+    def prompt_for_symbol(self) -> str:
+        return input(self.get_symbol_message())

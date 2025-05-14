@@ -1,9 +1,8 @@
 from .Controller.Controller import Controller
 
 def main():
-    # controller = Controller()
-    # controller.run()
-    return
+    controller = Controller()
+    controller.run()
 
 
 if __name__ == '__main__':
