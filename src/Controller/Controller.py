@@ -227,8 +227,10 @@ class Controller:
                         current_winner = self.game.get_winner()
                         if self.player_1.get_symbol() == current_winner:
                             winner_name = self.player_1.get_name()
+                            self.player_1.update_score(1)
                         else:
                             winner_name = self.player_2.get_name()
+                            self.player_2.update_score(1)
 
                         self.view.display_winner(winner_name)
 
@@ -238,6 +240,11 @@ class Controller:
                     # Display Game Over
                     self.view.display_grid(self.game.get_current_state(), "FINAL")
                     self.view.display_footer()
+
+                    # Display Scores
+                    p1_name, p2_name = self.player_1.get_name(), self.player_2.get_name()
+                    p1_score, p2_score = self.player_1.get_score(), self.player_2.get_score()
+                    self.view.display_scores(p1_name, p1_score, p2_name, p2_score)
 
                     # Prompt for Start (View), Clean, Extract First Char
                     raw_start_input     = self.view.prompt_for_start()

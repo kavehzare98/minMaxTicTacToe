@@ -121,7 +121,7 @@ class TestGame(unittest.TestCase):
     # SPECIAL GAME METHODS
     # =========================
 
-    def run_validate_move_test(self, move: int, expected_flag: bool, dim: int = 3):
+    def run_validate_move_test(self, move: str, expected_flag: bool, dim: int = 3):
         """
         Tests validate_move() to ensure it correctly flags legal and illegal moves.
         """
@@ -136,7 +136,7 @@ class TestGame(unittest.TestCase):
         dim = 4
         for move in range(25):
             expected = 1 <= move <= dim ** 2
-            self.run_validate_move_test(move, expected, dim)
+            self.run_validate_move_test(str(move), str(expected), dim)
 
     def run_is_draw_test(self, test_case: list, dim: int = 3):
         """

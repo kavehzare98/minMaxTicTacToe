@@ -115,7 +115,7 @@ class Game:
         backward_diag = [state[i * (dim + 1)] for i in range(dim)]
         forward_diag = [state[(i + 1) * (dim - 1)] for i in range(dim)]
 
-        return (backward_diag, forward_diag)
+        return [backward_diag, forward_diag]
 
     # ======== GAMEPLAY METHODS ========
 
@@ -177,7 +177,7 @@ class Game:
         diags = self.get_diags()
 
         # Check all rows, columns, and diagonals for a win
-        for group in rows + cols + list(diags):
+        for group in rows + cols + diags:
             if group.count(p1_symbol) == dim:
                 self.winner = p1_symbol
                 return True
