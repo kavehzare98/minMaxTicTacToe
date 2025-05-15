@@ -171,20 +171,64 @@ class Game:
         Returns:
             bool: True if either player has won.
         """
+        
+        '''
+        Here's my rationale, I want to truly check if there are any winners,
+        only if there are enough moves made. For instance, in a 3x3 grid, you need
+        a minimum of 5 moves made before winning is even possible.
+
+        This number is essentially the same as: dimension + (dimension - 1) => 3 + 2
+        However, we can easily county the empty slots more easily, so we can take
+        the total number of moves on the board (dimension ^ 2) and subtract
+        the minimum number of moves needed to even have a winning condition.
+
+        This will make the function more efficient overall.
+        '''
+        
         dim = self.get_dimension()
-        rows = self.get_rows()
-        cols = self.get_cols()
-        diags = self.get_diags()
+        min_moves_needed_to_win = dim + (dim - 1)
+        total_moves = dim ** 2
+        max_num_empty_slots = total_moves - min_moves_needed_to_win
+        curr_num_empty_slots = self.get_current_state().count('-')
 
-        # Check all rows, columns, and diagonals for a win
-        for group in rows + cols + diags:
-            if group.count(p1_symbol) == dim:
-                self.winner = p1_symbol
-                return True
-            elif group.count(p2_symbol) == dim:
-                self.winner = p2_symbol
-                return True
+        if curr_num_empty_slots <= max_num_empty_slots:
 
+            rows = self.get_rows()
+            cols = self.get_cols()
+            diags = self.get_diags()
+
+            # Check all rows, columns, and diagonals for a win
+            for row in rows:
+                if row.count(p1_symbol) == dim:
+                    print("P1 + ROW is a WINNER!")
+                    self.winner = p1_symbol
+                    return True
+                elif row.count(p2_symbol) == dim:
+                    print("P2 + ROW is a WINNER!")
+                    self.winner = p2_symbol
+                    return True
+                
+            for col in cols:
+                if col.count(p1_symbol) == dim:
+                    print("P1 + COL is a WINNER!")
+                    self.winner = p1_symbol
+                    return True
+                elif col.count(p2_symbol) == dim:
+                    print("P2 + COL is a WINNER!")
+                    self.winner = p2_symbol
+                    return True
+                
+            for diag in diags:
+                if diag.count(p1_symbol) == dim:
+                    print("P1 + DIAG is a WINNER!")
+                    self.winner = p1_symbol
+                    return True
+                elif diag.count(p2_symbol) == dim:
+                    print("P2 + DIAG is a WINNER!")
+                    self.winner = p2_symbol
+                    return True
+                
+        print("NO WINNER")
         return False
 
     def reset_game(self) -> None:

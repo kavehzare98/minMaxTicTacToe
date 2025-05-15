@@ -101,8 +101,8 @@ class CommandLineView:
         print()
 
     def display_scores(self, p1_name: str, p1_score: int, p2_name : str, p2_score : int) -> None:
-        print(f'\n{p1_name} Score:\t{p1_score}')
-        print(f'{p2_name} Score:\t{p2_score}')
+        print(f"\n{p1_name}'s Score:\t{p1_score}")
+        print(f"{p2_name}'s Score:\t{p2_score}")
 
     def display_winner(self, winner_name: str) -> None:
         print(f"{self.get_winning_message()}{winner_name}")

@@ -221,38 +221,36 @@ class Controller:
                         continue
                 
                 # If there is a winner or a tie
-                else:
-                    
-                    if is_winner:
-                        current_winner = self.game.get_winner()
-                        if self.player_1.get_symbol() == current_winner:
-                            winner_name = self.player_1.get_name()
-                            self.player_1.update_score(1)
-                        else:
-                            winner_name = self.player_2.get_name()
-                            self.player_2.update_score(1)
+                if is_winner:
+                    current_winner = self.game.get_winner()
+                    if self.player_1.get_symbol() == current_winner:
+                        winner_name = self.player_1.get_name()
+                        self.player_1.update_score(1)
+                    else:
+                        winner_name = self.player_2.get_name()
+                        self.player_2.update_score(1)
 
                         self.view.display_winner(winner_name)
 
-                    elif is_draw:
-                        self.view.display_tie()
+                elif is_draw:
+                    self.view.display_tie()
 
-                    # Display Game Over
-                    self.view.display_grid(self.game.get_current_state(), "FINAL")
-                    self.view.display_footer()
+                # Display Game Over
+                self.view.display_grid(self.game.get_current_state(), "FINAL")
+                self.view.display_footer()
 
-                    # Display Scores
-                    p1_name, p2_name = self.player_1.get_name(), self.player_2.get_name()
-                    p1_score, p2_score = self.player_1.get_score(), self.player_2.get_score()
-                    self.view.display_scores(p1_name, p1_score, p2_name, p2_score)
+                # Display Scores
+                p1_name, p2_name = self.player_1.get_name(), self.player_2.get_name()
+                p1_score, p2_score = self.player_1.get_score(), self.player_2.get_score()
+                self.view.display_scores(p1_name, p1_score, p2_name, p2_score)
 
-                    # Prompt for Start (View), Clean, Extract First Char
-                    raw_start_input     = self.view.prompt_for_start()
-                    clean_start_input   = self.clean_user_input(raw_start_input)
-                    char_start_input    = self.extract_first_char(clean_start_input)
+                # Prompt for Start (View), Clean, Extract First Char
+                raw_start_input     = self.view.prompt_for_start()
+                clean_start_input   = self.clean_user_input(raw_start_input)
+                char_start_input    = self.extract_first_char(clean_start_input)
 
-                    # Reset Game to Original State
-                    self.game.reset_game()
+                # Reset Game to Original State
+                self.game.reset_game()
 
                     
 
